@@ -1,0 +1,807 @@
+/* ==========================================================
+   组件
+   对应源主题 PostList / TableOfContents / CopyCode / ImageViewer
+   ========================================================== */
+
+/* ---- 文章列表 ---- */
+.post-list {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.post-list a {
+  color: var(--text-primary);
+  display: block;
+  text-decoration: none;
+  transition: opacity 0.15s ease-out;
+}
+
+@media (hover: hover) and (pointer: fine) {
+.post-list:hover a {
+    opacity: 0.4;
+  }
+
+  .post-list:hover a:hover {
+    opacity: 1;
+  }
+
+  .post-list:hover a:hover .divider {
+    background-color: var(--text-tertiary);
+    opacity: 0.75;
+  }
+
+  .post-list:hover a:hover .dotted-divider {
+    color: var(--text-secondary);
+  }
+
+  .post-list:hover a:hover .list-date {
+    color: var(--text-secondary);
+    opacity: 1;
+  }
+}
+
+.post-item {
+  height: 2.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.post-item.date-left {
+  justify-content: flex-start;
+}
+
+.post-item.date-left .item-title {
+  /* 日期在左模式下标题不撑满剩余空间，让 .divider 弹性伸展到行尾（与右侧模式的骨架一致） */
+  flex: 0 1 auto;
+}
+
+.post-item.date-left .list-date {
+  margin-right: 0.75rem;
+}
+
+/* 日期在左且显示阅读时长时，日期与 · 分隔符相邻，收紧右距与右侧列表的
+   .list-meta gap(0.5rem) 对齐（无阅读时长时保持 0.75rem 间距） */
+.post-item.date-left .list-date:has(+ .meta-sep) {
+  margin-right: 0.25rem;
+}
+
+.item-title {
+  margin: 0;
+  flex-shrink: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.list-date {
+  margin: 0;
+  color: var(--text-secondary);
+  opacity: 0.75;
+  letter-spacing: var(--spacing-s);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.list-date.date-left {
+  display: inline-block;
+  /* 不再设 min-width: 86px——各行是独立 flex 容器，min-width 起不到跨行对齐作用，
+     只会给行首留出大块空白；同格式日期宽度由 tabular-nums 保证 */
+}
+
+/* ---- 列表项右侧元信息（阅读时长 + 日期）----
+   模板 index.php 引用了这三个类，之前只写了模板漏了样式：
+   没有 .list-meta 的 flex-shrink: 0，日期在右侧时这一组会被 .divider
+   （flex: 1 1 auto）挤压；没有 .list-reading 的次级色，阅读时长会以
+   正文链接色（--text-primary）显示，跟日期的次级色不一致。 */
+.list-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* 阅读时长与日期保持同一套次级色/字间距，视觉上是一个整体 */
+.list-reading {
+  color: var(--text-secondary);
+  opacity: 0.75;
+  letter-spacing: var(--spacing-s);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.meta-sep {
+  color: var(--text-secondary);
+  opacity: 0.75;
+}
+
+.divider {
+  flex: 1 1 auto;
+  min-width: 3rem;
+  margin: 0 0.25rem;
+  height: 0.5px;
+  background-color: var(--border);
+}
+
+.dotted-divider {
+  flex: 1 1 3rem;
+  min-width: 3rem;
+  max-width: 100%;
+  text-align: end;
+  letter-spacing: 5px;
+  height: 1.675rem;
+  overflow: hidden;
+  color: var(--text-tertiary);
+  opacity: 0.75;
+}
+
+.dotted-divider::after {
+  content: '·····························································································································································';
+  pointer-events: none;
+}
+
+.post-list .placeholder {
+  height: 3rem;
+}
+
+/* ---- 关于区块 ---- */
+.about:not(:empty) {
+  margin-bottom: 1.25rem;
+}
+/* ---- 目录 ---- */
+.prose .toc-nav {
+  font-family: var(--sans);
+}
+.prose .toc-container {
+  width: 12rem;
+  position: relative;
+  left: -0.175em;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+  display: none;
+}
+
+/*
+ * 宽屏时固定到内容左侧（纯 CSS，与原版 JS 计算等价：
+ * left = (100vw - 内容宽) / 2 - 11rem - 2.5rem）
+ */
+@media (min-width: 1016px) {
+.prose .toc-container {
+    display: block;
+    opacity: 1;
+    position: fixed;
+    top: 12rem;
+    left: calc((100vw - var(--content-width, 35rem)) / 2 - 11rem - 2.5rem);
+    width: 12rem;
+    margin-top: 0;
+    padding-left: 1rem;
+    z-index: 10;
+  }
+}
+.prose .toc-list, .prose .toc-list li, .prose .toc-item {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.prose .toc-container .toc-list {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+.prose .toc-container .toc-list li {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.prose .toc-item::before, .prose .toc-item::marker {
+  display: none;
+}
+.prose .toc-link {
+  display: block;
+  color: transparent;
+  text-decoration: none;
+  position: relative;
+  padding-left: 0;
+  height: 1.125rem;
+  width: 100%;
+  min-height: 1rem;
+  font-size: 0;
+  line-height: 1.125rem;
+  text-indent: 2rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition:
+    color 0.2s ease-out,
+    font-size 0.2s ease-out,
+    text-indent 0.2s ease-out;
+  cursor: pointer;
+}
+.prose .toc-link::after {
+  content: attr(data-text);
+  position: absolute;
+  left: -0.5rem;
+  top: 0;
+  font-family: var(--sans);
+  font-size: var(--font-size-s);
+  letter-spacing: var(--spacing-m);
+  line-height: 1.125rem;
+  color: var(--text-primary);
+  opacity: 0;
+  transition:
+    opacity 0.2s ease-out,
+    left 0.2s ease-out;
+  pointer-events: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.prose .toc-link:hover::after {
+  opacity: 1;
+  left: -0.75rem;
+}
+.prose .toc-level-0 .toc-link:hover::after {
+  opacity: 0;
+}
+.prose .toc-level-1 .toc-link:hover::before, .prose .toc-level-2 .toc-link:hover::before, .prose .toc-level-3 .toc-link:hover::before {
+  width: 0.75rem;
+  transition: width 0.1s ease-out;
+}
+.prose .toc-link.active {
+  color: var(--text-primary);
+}
+.prose .toc-level-0 .toc-link::before, .prose .toc-level-1 .toc-link::before, .prose .toc-level-2 .toc-link::before, .prose .toc-level-3 .toc-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1.75rem;
+  height: 1px;
+  background-color: var(--text-tertiary);
+  transform: translateY(-50%);
+  opacity: 0.4;
+  transition: all 0.1s ease-out;
+}
+.prose .toc-link:hover::before, .prose .toc-link.active::before {
+  opacity: 0.8;
+  background-color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+.prose .toc-container {
+    display: none !important;
+  }
+}
+
+/* ---- 代码复制按钮 ---- */
+.copy-code-wrapper {
+  position: relative !important;
+}
+
+.copy-code-block {
+  position: relative !important;
+}
+
+.copy-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  z-index: 10;
+  background: var(--bg);
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(48px);
+  opacity: 0;
+  pointer-events: none;
+  padding: 0;
+}
+
+.copy-code-wrapper:hover .copy-button,
+.copy-button:focus-visible,
+.copy-button[data-copy-state='copied'] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body[data-copy-code='disabled'] .copy-button {
+  display: none !important;
+}
+
+.copy-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--code-bg);
+  border-radius: 0.325rem;
+  opacity: 0;
+  transition: opacity 0.15s ease-out;
+  pointer-events: none;
+}
+
+.copy-button:hover::before {
+  opacity: 1;
+}
+
+.copy-button:hover {
+  color: var(--text-primary);
+}
+
+.copy-button svg {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+@media (hover: none) and (pointer: coarse) {
+.copy-button {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* ---- 图片查看器 ---- */
+.image-viewer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.15s ease-out,
+    visibility 0s linear 0.15s;
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.image-viewer.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    opacity 0.15s ease-out,
+    visibility 0s ease-out;
+}
+
+.image-viewer img {
+  min-width: 45rem;
+  max-width: 60vw;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+.image-viewer img {
+    min-width: 100vw;
+  }
+}
+
+.image-viewer__close {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 10000;
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+}
+
+.image-viewer__close:hover {
+  color: var(--text-primary);
+}
+
+
+/* ---- 正文图片预览光标与懒加载渐显（对齐原版） ---- */
+.prose img[data-preview='true'] {
+  cursor: pointer;
+}
+
+.prose img[loading='lazy'] {
+  opacity: 0;
+  animation: chiriFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes chiriFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ==========================================================
+   评论区
+   结构完全对齐 Typecho 内核输出的官方标记：
+   ol.comment-list > li.comment-body >
+     .comment-author / .comment-meta / .comment-content /
+     .comment-reply / .comment-children
+   ========================================================== */
+.comments {
+  /* 顶部间距由 .prose 的 margin-bottom（4rem）提供，这里不再叠加；
+     底部 4rem 是评论区与页脚之间的呼吸空间（评论区在 main 内部，见 post.php） */
+  margin: 0 0 4rem 0;
+  font-size: var(--font-size-m);
+}
+
+.comments-title {
+  font-size: var(--font-size-m);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.75;
+  margin: 0 0 1.75rem 0;
+}
+
+/* ---- 评论列表 ---- */
+.comment-list,
+.comment-list li {
+  list-style: none;
+}
+
+.comment-list {
+  margin: 0;
+  padding: 0;
+}
+
+.comment-body {
+  margin: 0 0 1.75rem 0;
+  padding: 0 0 1.75rem 0;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.comment-body:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* 嵌套回复：缩进 + 左侧细线，不重复分割线 */
+.comment-children {
+  margin: 1.75rem 0 0 0;
+  padding-left: 1.25rem;
+  border-left: 0.5px solid var(--border);
+}
+
+.comment-children .comment-body {
+  margin-bottom: 1.75rem;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.comment-children .comment-body:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- 作者行（头像 + 昵称） ---- */
+.comment-author {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.comment-author img {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.comment-author cite.fn {
+  font-style: normal;
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+}
+
+/* ---- 元信息（时间 / 待审核） ---- */
+.comment-meta {
+  color: var(--text-secondary);
+  opacity: 0.6;
+  font-size: var(--font-size-s);
+  letter-spacing: var(--spacing-s);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 0.5rem;
+}
+
+.comment-meta a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s ease-out;
+}
+
+.comment-meta a:hover {
+  opacity: 0.7;
+}
+
+.comment-awaiting-moderation {
+  font-style: normal;
+  margin-left: 0.5rem;
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+/* ---- 评论正文 ---- */
+.comment-content {
+  color: var(--text-primary);
+  line-height: 1.75;
+}
+
+.comment-content p {
+  margin: 0;
+}
+
+.comment-content > * + * {
+  margin-top: 1em;
+}
+
+.comment-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.comment-content a {
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-decoration-color: var(--text-tertiary);
+  text-underline-offset: 0.2em;
+}
+
+.comment-content blockquote {
+  margin: 1em 0;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.comment-content code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  background: var(--code-bg);
+  border-radius: 3px;
+  padding: 0.1em 0.3em;
+}
+
+/* ---- 回复 / 取消回复 ---- */
+.comment-reply {
+  margin-top: 0.5rem;
+  font-size: var(--font-size-s);
+}
+
+.comment-reply a,
+.cancel-comment-reply a {
+  color: var(--text-secondary);
+  opacity: 0.7;
+  text-decoration: none;
+  letter-spacing: var(--spacing-s);
+  cursor: pointer;
+  transition: opacity 0.2s ease-out;
+}
+
+.comment-reply a:hover,
+.cancel-comment-reply a:hover {
+  opacity: 1;
+  color: var(--text-primary);
+}
+
+/* 博主本人的评论：正文左侧一条细标记 */
+.comment-by-author > .comment-content {
+  border-left: 2px solid var(--border);
+  padding-left: 0.75rem;
+}
+
+/* ---- 评论表单 ---- */
+.comments-respond {
+  margin-top: 3.5rem;
+}
+
+/* 无评论列表时 respond 是 #comments 内的第一个元素子节点——
+   此时 .prose 的 4rem 底距与 respond 的 3.5rem 上距在同一个区段双重堆叠，
+   正文化与「添加新评论」之间出现近两屏空白；这里消掉内层，只留 4rem 段落节奏 */
+.comments .comments-respond:first-child {
+  margin-top: 0;
+}
+
+/* ---- 窄屏列表：隐藏阅读时长 ----
+   375px 实测「1 min read · 19 Oct 2026」约占行宽四分之三，标题只剩 5 字，
+   几乎不可用；分类/搜索列表无时长项不受影响。断点对齐 layout.css 的小屏
+   560px。右模式 reading 在日期前（普通兄弟选择器连坐），左模式 reading
+   在 · 之后（:has 连坐，无 :has 引擎退化为余留一个 ·） */
+@media (max-width: 560px) {
+  .list-reading,
+  .list-reading + .meta-sep,
+  .meta-sep:has(+ .list-reading) {
+    display: none;
+  }
+
+  .post-item,
+  .post-item.date-left {
+    gap: 0.5rem;
+  }
+}
+
+.cancel-comment-reply {
+  margin-bottom: 0.75rem;
+  font-size: var(--font-size-s);
+}
+
+/* 标签视觉隐藏：placeholder 已表达字段含义，标签保留给读屏软件 */
+.comment-field label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.comment-field {
+  position: relative;
+  margin: 0 0 1rem 0;
+}
+
+.comment-field input[type='text'],
+.comment-field input[type='email'],
+.comment-field input[type='url'],
+.comment-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--sans);
+  font-size: var(--font-size-m);
+  line-height: 1.75;
+  color: var(--text-primary);
+  background-color: transparent;
+  border: 0.5px solid var(--border);
+  border-radius: 5px;
+  padding: 0.5rem 0.75rem;
+  outline: none;
+  transition: border-color 0.2s ease-out;
+}
+
+.comment-field input::placeholder,
+.comment-field textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
+.comment-field input:focus,
+.comment-field textarea:focus {
+  border-color: var(--text-tertiary);
+}
+
+.comment-field textarea {
+  resize: vertical;
+  min-height: 8rem;
+}
+
+/* 已登录状态的身份行 */
+.comment-logged {
+  margin: 0 0 1.25rem 0;
+  color: var(--text-secondary);
+  opacity: 0.8;
+  font-size: var(--font-size-s);
+  line-height: 1.75;
+}
+
+.comment-logged a {
+  color: var(--text-primary);
+  text-decoration: none;
+  border-bottom: 0.5px solid var(--border);
+  transition: border-color 0.2s ease-out;
+}
+
+.comment-logged a:hover {
+  border-bottom-color: var(--text-primary);
+}
+
+.comment-submit {
+  margin: 1.5rem 0 0 0;
+}
+
+.comment-submit button {
+  font-family: var(--sans);
+  font-size: var(--font-size-m);
+  letter-spacing: var(--spacing-m);
+  color: var(--text-primary);
+  background-color: transparent;
+  border: 0.5px solid var(--border);
+  border-radius: 5px;
+  padding: 0.375rem 1rem;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease-out,
+    opacity 0.2s ease-out;
+}
+
+.comment-submit button:hover {
+  border-color: var(--text-tertiary);
+}
+
+/* 评论关闭提示 */
+.comment-closed {
+  margin: 2.5rem 0 0 0;
+  color: var(--text-secondary);
+  opacity: 0.75;
+}
+
+/* ---- 评论分页（内核输出 ol.page-navigator） ---- */
+.comments-pagination {
+  margin: 2.5rem 0 0 0;
+}
+
+.comments-pagination .page-navigator {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--font-size-s);
+}
+
+.comments-pagination .page-navigator li {
+  list-style: none;
+}
+
+.comments-pagination .page-navigator li a,
+.comments-pagination .page-navigator li span {
+  color: var(--text-secondary);
+  opacity: 0.75;
+  text-decoration: none;
+  transition: opacity 0.2s ease-out;
+}
+
+.comments-pagination .page-navigator li a:hover {
+  opacity: 1;
+  color: var(--text-primary);
+}
+
+.comments-pagination .page-navigator li.current a {
+  color: var(--text-primary);
+  opacity: 1;
+}
+
+/* ---- 主题设置中关闭评论区时的提示 ----
+   由 post.php / page.php 在 chiri_has_comments() 为 false 时输出，
+   位于 .prose 内、正文之后，紧贴文章结尾（不要移到 main 之外：
+   main 是 flex:1 的纵向容器，放到外面会被拉伸到视口底部，短文章页上
+   会变成一大片空白中间孤零零的一行）。
+   选择器带 .prose 前缀是为了压过 post.css 里的 `.prose * { margin:0 }`（同权重时后者胜）。 */
+.prose .comments-disabled {
+  margin: 2.5rem 0 0 0;
+  font-size: var(--font-size-s);
+  line-height: 1.75;
+  letter-spacing: var(--spacing-s);
+  color: var(--text-secondary);
+  opacity: 0.6;
+}

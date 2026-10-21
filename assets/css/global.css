@@ -1,0 +1,599 @@
+
+
+:root {
+  /* Min Content Width */
+  --content-width: 25rem;
+
+  /* Typography */
+  --sans: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: Besley, Baskerville, Georgia, 'Times New Roman', Times, serif;
+  --mono: 'SF Mono', SFMono-Regular, ui-monospace;
+
+  --font-size-s: 0.8125rem;
+  --font-size-m: 0.9375rem;
+  --font-size-l: 1.0625rem;
+
+  --font-weight-light: 350;
+  --font-weight-regular: 400;
+  --font-weight-bold: 500;
+
+  --spacing-s: -0.08em;
+  --spacing-m: -0.02em;
+
+  /* Light Mode Colors (Default) */
+  --bg: #ffffff;
+  --text-primary: rgba(0, 0, 0, 0.85);
+  --text-secondary: rgba(0, 0, 0, 0.4);
+  --text-tertiary: rgba(0, 0, 0, 0.24);
+  --border: rgba(0, 0, 0, 0.1);
+  --selection: rgba(0, 0, 0, 0.08);
+  --code-bg: rgba(0, 0, 0, 0.04);
+  --mark: #f3ffc4;
+
+  /* Syntax Theme  */
+  --astro-code-foreground: rgba(0, 0, 0, 0.85);
+  --astro-code-background: rgba(0, 0, 0, 0.03);
+  --astro-code-token-constant: rgba(0, 0, 0, 0.85);
+  --astro-code-token-string: rgba(0, 0, 0, 0.85);
+  --astro-code-token-comment: rgba(0, 0, 0, 0.35);
+  --astro-code-token-keyword: rgba(0, 0, 0, 0.55);
+  --astro-code-token-parameter: rgba(0, 0, 0, 0.85);
+  --astro-code-token-function: rgba(0, 0, 0, 0.85);
+  --astro-code-token-string-expression: rgba(0, 0, 0, 0.55);
+  --astro-code-token-punctuation: rgba(0, 0, 0, 0.55);
+  --astro-code-token-link: rgba(0, 0, 0, 0.55);
+}
+
+/* Light Mode (Explicit) */
+html.light {
+  --bg: #ffffff;
+  --text-primary: rgba(0, 0, 0, 0.85);
+  --text-secondary: rgba(0, 0, 0, 0.4);
+  --text-tertiary: rgba(0, 0, 0, 0.24);
+  --border: rgba(0, 0, 0, 0.1);
+  --selection: rgba(0, 0, 0, 0.08);
+  --code-bg: rgba(0, 0, 0, 0.04);
+  --mark: #f3ffc4;
+
+  /* Syntax Theme  */
+  --astro-code-foreground: rgba(0, 0, 0, 0.85);
+  --astro-code-background: rgba(0, 0, 0, 0.03);
+  --astro-code-token-constant: rgba(0, 0, 0, 0.85);
+  --astro-code-token-string: rgba(0, 0, 0, 0.85);
+  --astro-code-token-comment: rgba(0, 0, 0, 0.35);
+  --astro-code-token-keyword: rgba(0, 0, 0, 0.5);
+  --astro-code-token-parameter: rgba(0, 0, 0, 0.85);
+  --astro-code-token-function: rgba(0, 0, 0, 0.85);
+  --astro-code-token-string-expression: rgba(0, 0, 0, 0.55);
+  --astro-code-token-punctuation: rgba(0, 0, 0, 0.55);
+  --astro-code-token-link: rgba(0, 0, 0, 0.55);
+}
+
+/* Dark Mode (Explicit) */
+html.dark {
+  --bg: #1c1c1c;
+  --text-primary: rgba(255, 255, 255, 0.9);
+  --text-secondary: rgba(255, 255, 255, 0.4);
+  --text-tertiary: rgba(255, 255, 255, 0.24);
+  --border: rgba(255, 255, 255, 0.1);
+  --selection: rgba(255, 255, 255, 0.08);
+  --code-bg: rgba(255, 255, 255, 0.04);
+  --mark: #545b37;
+
+  /* Syntax Theme  */
+  --astro-code-foreground: rgba(255, 255, 255, 0.9);
+  --astro-code-background: rgba(255, 255, 255, 0.03);
+  --astro-code-token-constant: rgba(255, 255, 255, 0.9);
+  --astro-code-token-string: rgba(255, 255, 255, 0.9);
+  --astro-code-token-comment: rgba(255, 255, 255, 0.35);
+  --astro-code-token-keyword: rgba(255, 255, 255, 0.55);
+  --astro-code-token-parameter: rgba(255, 255, 255, 0.9);
+  --astro-code-token-function: rgba(255, 255, 255, 0.9);
+  --astro-code-token-string-expression: rgba(255, 255, 255, 0.55);
+  --astro-code-token-punctuation: rgba(255, 255, 255, 0.55);
+  --astro-code-token-link: rgba(255, 255, 255, 0.55);
+}
+
+html {
+  background-color: var(--bg);
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.2s ease-out;
+}
+
+body {
+  font-family: var(--sans);
+  font-feature-settings: 'ss03' 1;
+  font-size: var(--font-size-m);
+  line-height: 1.75;
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  letter-spacing: var(--spacing-m);
+  margin: 0 auto;
+  width: 100%;
+  overscroll-behavior-y: contain;
+  text-autospace: normal;
+  text-spacing-trim: space-first;
+  text-rendering: optimizeLegibility;
+  font-synthesis: none;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+body[data-centered='true'] {
+  padding: 6rem 1.5rem 1.5rem;
+}
+
+body[data-centered='false'] {
+  padding: 6rem 0 1.5rem;
+  margin: 0 1.5rem 0 8rem;
+}
+
+@media (max-width: 768px) {
+  body[data-centered='true'],
+  body[data-centered='false'] {
+    padding: 4rem 1.35rem 1.35rem;
+    margin: 0 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background-color: var(--selection);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 1.5px dashed var(--text-tertiary);
+  border-radius: 0.25rem;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.date {
+  margin: 0;
+  font-weight: var(--font-weight-light);
+  color: var(--text-secondary);
+  opacity: 0.75;
+  flex-shrink: 0;
+  letter-spacing: var(--spacing-s);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings:
+    'tnum' 1,
+    'zero' 0,
+    'cv01' 1,
+    'cv02' 1,
+    'calt' 1,
+    'ss03' 1,
+    'ordn' 1;
+}
+
+.date .month {
+  letter-spacing: var(--spacing-m);
+}
+
+/* 文章页所属分类：隐式文本风格，与日期/阅读时长同 typography */
+.post-category {
+  color: var(--text-secondary);
+}
+
+.post-category .separator {
+  margin: 0 0.25em;
+}
+
+.post-category a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 0;
+}
+
+.post-category a:hover {
+  color: var(--text-primary);
+}
+
+.sr-only {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ==========================================================
+   Typecho 适配补充
+   ========================================================== */
+
+/* 字体声明 */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/Inter.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Besley';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/Besley-Italic.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* 防止主题切换闪烁：背景色先于样式表生效 */
+html {
+  background-color: var(--bg);
+  color-scheme: light;
+}
+
+html.dark {
+  background-color: var(--bg);
+  color-scheme: dark;
+}
+
+/* Typecho 默认输出的 .post 容器不需要额外间距 */
+main .post {
+  margin: 0;
+}
+
+/* 归档页 / 页面标题 */
+.page-title {
+  /* 站点名与标题区拉开距离：两个加粗文本贴在一起会显得层级混乱 */
+  margin: 2.5rem 0 3rem;
+}
+
+.page-title h1 {
+  margin: 0 0 0.625rem 0;
+  /* 全站字号体系最大只有 --font-size-l(1.0625rem)，不设字号会吃到浏览器默认 h1 的 2em */
+  font-size: var(--font-size-l);
+}
+
+.page-title .page-desc {
+  margin: 0;
+  font-size: var(--font-size-s);
+  font-weight: var(--font-weight-light);
+  color: var(--text-secondary);
+  opacity: 0.75;
+}
+
+/* 分页导航
+   $this->pageNav() 的输出结构是：
+     <ol class="page-navigator">
+       <li> / <li class="prev"> / <li class="current"> / <li class="next">
+   每个 li 内含 <a>；省略号是 li 内的纯文本 <span>。
+   移植时踩过两个坑，都写在这里防止回退：
+   1) 模板里不要再套一层 class="page-navigator" 的元素（类名会重复）；
+   2) <ol> / <li> 的默认 list-style 与 40px 左内边距必须显式清零，
+      否则每个页码前会冒出数字并整体缩进。 */
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  font-size: var(--font-size-s);
+  color: var(--text-secondary);
+}
+
+.pagination .page-navigator {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.875rem;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination .page-navigator li {
+  list-style: none;
+}
+
+.pagination .page-navigator a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease-out;
+}
+
+.pagination .page-navigator a:hover {
+  color: var(--text-primary);
+}
+
+/* 当前页：与主题一致，用颜色深浅而非方块背景来标识 */
+.pagination .page-navigator li.current a,
+.pagination .page-navigator li.current a:hover {
+  color: var(--text-primary);
+}
+
+/* 省略号等纯文本项 */
+.pagination .page-navigator li > span {
+  color: var(--text-tertiary);
+  opacity: 0.75;
+}
+
+/* 文章元信息：分类 / 标签 */
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--font-size-s);
+  color: var(--text-secondary);
+}
+
+.post-meta a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease-out;
+}
+
+.post-meta a:hover {
+  color: var(--text-primary);
+}
+
+.post-meta .meta-separator {
+  color: var(--text-tertiary);
+}
+
+/* 文章底部导航（上一篇 / 下一篇） */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  font-size: var(--font-size-s);
+  color: var(--text-secondary);
+}
+
+.post-nav a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.2s ease-out;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.post-nav a:hover {
+  color: var(--text-secondary);
+}
+
+/* 评论区 */
+.comments-list .comment {
+  list-style: none;
+  padding-left: 0;
+}
+
+.comments-list .comment .comment-body {
+  font-size: var(--font-size-s);
+}
+
+/* 搜索框 */
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.search-form input[type='text'],
+.search-form input[type='search'] {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5em 0.75em;
+  font-family: var(--sans);
+  font-size: var(--font-size-m);
+  color: var(--text-primary);
+  background: var(--code-bg);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s ease-out;
+}
+
+.search-form input:focus {
+  border-color: var(--text-tertiary);
+}
+
+.search-form button {
+  padding: 0.5em 1em;
+  font-family: var(--sans);
+  font-size: var(--font-size-m);
+  color: var(--text-primary);
+  background: var(--code-bg);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s ease-out;
+}
+
+.search-form button:hover {
+  border-color: var(--text-tertiary);
+}
+
+/* 空状态 */
+.empty-state {
+  margin: 3rem 0;
+  color: var(--text-secondary);
+  opacity: 0.75;
+  font-size: var(--font-size-m);
+}
+
+/*
+ * 注意：不要给 .layout-wrapper（或任何 .back-button / .toc-container /
+ * .gradient-mask 的祖先）添加 transform / filter / backdrop-filter /
+ * will-change / animation(含 transform 关键帧) —— 这些属性会让该元素
+ * 成为后代 position:fixed 元素的**包含块**，导致侧边目录与返回按钮
+ * 被拽进正文、顶部渐变遮罩宽度错乱。原版主题的 .layout-wrapper 无动画。
+ */
+
+/* ==========================================================
+   页面转场
+   复刻原版 astro-chiri 的 ClientRouter 动画（抓自原站内联样式）：
+
+     ::view-transition-old(root) → fade-out 0.4s cubic-bezier(0.4, 0, 0.2, 1)
+     ::view-transition-new(root) → opacity 0，0.2s 延迟后 fade-in 0.4s ease，
+                                   过程伴随 blur(8px) → blur(0)
+
+   两条路径并存，按「本次导航有没有原生跨文档转场」自动选择：
+
+   ① 原生路径（Chrome/Edge 126+ 的正常导航）：
+      @view-transition 让浏览器在**合成器**里做交叉叠化 —— 旧页淡出与新页
+      淡入重叠进行、没有白屏空档，这正是原版「丝滑」的来源。
+      是否走这条路由 sessionStorage 的 chiri-vt 标记决定：
+      旧页面在 pageswap 里发现 viewTransition 存在就置位，新页面在 head 里读到。
+   ② 降级路径（后退未命中原生转场、浏览器不支持、标记读取失败）：
+      由 JS 淡出/淡入。多页应用里「淡出 → 跳转 → 淡入」是串行的，所以时序
+      单独适配：旧页淡出压到 0.25s、新页淡入去掉 0.2s 延迟（原版的延迟只为
+      与旧页叠化，串行时只会变成冷场白屏）。
+
+   两个必须守住的约束：
+   1) JS 侧动画对象只能是 opacity —— #transition-wrapper 内部有 position:fixed
+      的侧边目录与返回按钮，给它们的共同祖先加 filter / transform 会把包含块
+      从视口改成该祖先，动画期间目录和按钮会瞬间跑位。
+      （原生路径的 blur 挂在 ::view-transition-* 伪元素上，是快照层，安全。）
+   2) 降级路径**不再做模糊**：原来的做法是用一层全屏 backdrop-filter 遮罩
+      并动画它的模糊半径，那是「每帧重算整屏背景模糊」，是最容易掉帧的写法
+      （表现为整页发糊、抖动）。现在降级路径只有纯 opacity 交叉淡入淡出；
+      模糊效果仍保留在支持原生跨文档转场的浏览器上（挂在 ::view-transition-*
+      伪元素这个快照层上，由合成器处理，安全且不掉帧）。
+   ========================================================== */
+
+/* ---- ① 原生跨文档转场 ---- */
+@view-transition {
+  navigation: auto;
+}
+
+@supports (view-transition-name: none) {
+  @media not (prefers-reduced-motion: reduce) {
+    /*
+     * 这里把交叉叠化的混合模式显式声明为 normal。
+     * 交叉叠化默认走 plus-lighter 混合：两页结构几乎相同时，重叠的同一处内容
+     * 会被「相加」提亮，文字出现发亮/闪烁的重影，观感就是整页在抖。
+     * 改成普通 alpha 混合后是干净的交叉溶解（浅色站点观感一致甚至更干净）。
+     */
+    ::view-transition-old(root) {
+      animation: chiri-vt-fade-out 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      mix-blend-mode: normal;
+    }
+
+    ::view-transition-new(root) {
+      opacity: 0;
+      animation: chiri-vt-fade-in 0.4s ease 0.2s forwards;
+      will-change: filter, opacity, transform;
+      mix-blend-mode: normal;
+    }
+  }
+}
+
+@keyframes chiri-vt-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes chiri-vt-fade-in {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateZ(0);
+  }
+  30% {
+    opacity: 0.5;
+    filter: blur(4px);
+    transform: translateZ(0);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateZ(0);
+  }
+}
+
+/* ---- ② JS 降级路径 ---- */
+
+/* 先隐藏，避免「闪一下全亮」；由 page-transition.js 接手淡入。
+   theme-head.js 里带 DOMContentLoaded 与 1.2s 双重兜底，绝不卡在不可见。 */
+.chiri-pt-pending #transition-wrapper {
+  opacity: 0;
+}
+
+.chiri-pt-enter {
+  animation: chiri-pt-fade-in 0.4s ease both;
+}
+
+.chiri-pt-leave {
+  animation: chiri-pt-fade-out 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes chiri-pt-fade-in {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes chiri-pt-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chiri-pt-pending #transition-wrapper {
+    opacity: 1;
+  }
+
+  .chiri-pt-enter,
+  .chiri-pt-leave {
+    animation: none;
+  }
+}

@@ -1,0 +1,253 @@
+/* ==========================================================
+   布局组件
+   对应源主题中的 Header.astro / Footer.astro / GradientMask.astro
+   ========================================================== */
+
+.layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.page-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-content main {
+  flex: 1;
+}
+
+header {
+  margin: 0;
+}
+
+header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header a {
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  text-decoration: none;
+  min-width: 3rem;
+  display: inline-block;
+}
+
+/* ---- 主题切换按钮 ---- */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--text-primary);
+  opacity: 0.4;
+  transition: opacity 0.2s ease-out;
+  padding: 0;
+}
+
+.theme-toggle:hover {
+  opacity: 1;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .theme-toggle:hover {
+    opacity: 0.4;
+  }
+}
+
+/* ---- 顶部渐变遮罩 ---- */
+.gradient-mask {
+  --gradient-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.738) 19%,
+    rgba(0, 0, 0, 0.541) 34%,
+    rgba(0, 0, 0, 0.382) 47%,
+    rgba(0, 0, 0, 0.278) 56.5%,
+    rgba(0, 0, 0, 0.194) 65%,
+    rgba(0, 0, 0, 0.126) 73%,
+    rgba(0, 0, 0, 0.075) 80.2%,
+    rgba(0, 0, 0, 0.042) 86.1%,
+    rgba(0, 0, 0, 0.021) 91%,
+    rgba(0, 0, 0, 0.008) 95.2%,
+    rgba(0, 0, 0, 0.002) 98.2%,
+    transparent 100%
+  );
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2rem;
+  z-index: 99;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+.gradient-mask__blur,
+.gradient-mask__background {
+  position: absolute;
+  inset: 0;
+  mask-image: var(--gradient-mask-image);
+  -webkit-mask-image: var(--gradient-mask-image);
+}
+
+.gradient-mask__blur {
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+}
+
+.gradient-mask__background {
+  background-color: var(--bg);
+  transition: background-color 0.2s ease-out;
+}
+
+@media (min-width: 768px) {
+  .gradient-mask {
+    height: 4rem;
+  }
+}
+
+
+/* ---- 文章页容器：内容不足时页脚贴底（对齐原版） ---- */
+.post-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.post-container main {
+  flex: 1;
+}
+
+/* ---- 页脚 ---- */
+footer {
+  font-size: var(--font-size-s);
+  font-weight: var(--font-weight-light);
+  line-height: 1.75;
+  color: var(--text-secondary);
+  opacity: 0.75;
+  margin-top: 4rem;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  /* 允许换行：备案号长度不定，中等宽度下塞不进一行时让 Powered by 掉到第二行，
+     而不是把左列挤到溢出 */
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  width: 100%;
+}
+
+.copyright,
+.powered-by {
+  white-space: nowrap;
+}
+
+.copyright .date {
+  opacity: 1;
+}
+
+footer a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease-out;
+}
+
+footer a:hover {
+  color: var(--text-primary);
+}
+
+/* ---- ICP 备案号：并入左列版权行 ----
+
+   单行两端布局，与原版结构一致：
+     © 2026 3ASH · 粤ICP备2024000000号          Powered by Typecho + Chiri
+
+   为什么备案号跟在版权后面而不是单独占一行：
+   页脚本身就是「左版权 / 右 Powered by」的两端布局，多出来的第三行无论居中还是
+   靠右都悬在两端之间、和谁都不成组；备案号与版权同属「站点身份」信息，
+   并进左列后仍是一行两端，视觉上最干净。
+
+   分隔符用伪元素生成：备案号留空时连「·」一起消失，不用在模板里做条件判断。 */
+.site-beian {
+  letter-spacing: 0.02em;
+}
+
+.copyright .site-beian::before {
+  content: '\00B7';
+  margin: 0 0.4em;
+  opacity: 0.65;
+}
+
+/* 备案号长度不定（各省格式差异很大），不能赌它在窄屏一定塞得下。
+   放不下就纵向堆叠并**居中**——两行左对齐会在右侧留一大块空白，
+   移动端页脚居中是惯例，与「只剩备案号」时的居中行为也一致。 */
+@media (max-width: 560px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .copyright,
+  .powered-by {
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+/* ---- 返回按钮 ---- */
+.prose .back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--serif);
+  font-size: var(--font-size-m);
+  font-style: italic;
+  letter-spacing: 0;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  text-decoration: none;
+  margin: 0 0 2.5rem 0;
+  padding: 0;
+  transition: color 0.2s ease-out;
+}
+
+.prose .back-button:hover {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.prose .back-button svg {
+  width: 0.8rem;
+  height: 0.8rem;
+  flex-shrink: 0;
+}
+
+/*
+ * 宽屏时固定到内容左上侧（纯 CSS，与原版 JS 计算等价）；
+ * 窄屏时保持在文档流中（标题上方），保证始终可见。
+ */
+@media (min-width: 1016px) {
+  .prose .back-button {
+    position: fixed;
+    top: 6rem;
+    left: calc((100vw - var(--content-width, 35rem)) / 2 - 11rem - 2.5rem);
+    margin-bottom: 0;
+    padding-left: 0.75rem;
+    z-index: 10;
+  }
+}
+

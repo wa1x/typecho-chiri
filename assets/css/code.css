@@ -1,0 +1,217 @@
+/* ==========================================================
+   代码高亮
+   Typecho 默认不引入构建期工具，此处用轻量的类名着色方案
+   还原 astro-chiri 使用 Shiki `css-variables` 主题时的灰阶观感。
+   若文章中已有 .shiki 类名（由 Shiki 生成），相关规则同样生效。
+   ========================================================== */
+
+/* 语法着色 —— 全部使用透明度灰阶，随主题自动适配 */
+.prose .astro-code,
+.prose .shiki span {
+  color: var(--astro-code-foreground);
+}
+
+/* 行号行内标记（Shiki line 分组） */
+.prose .astro-code,
+.prose .shiki {
+  font-variant-ligatures: none;
+}
+
+/* 通用 token 类名（来自常见的 highlight 主题） */
+.prose .hljs-comment,
+.prose .hljs-quote,
+.prose .hljs-deletion,
+.prose .hljs-meta {
+  color: var(--astro-code-token-comment);
+  font-style: italic;
+}
+
+.prose .hljs-keyword,
+.prose .hljs-selector-tag,
+.prose .hljs-doctag,
+.prose .hljs-template-tag,
+.prose .hljs-operator {
+  color: var(--astro-code-token-keyword);
+}
+
+.prose .hljs-string,
+.prose .hljs-regexp,
+.prose .hljs-addition,
+.prose .hljs-attribute,
+.prose .hljs-meta .hljs-string {
+  color: var(--astro-code-token-string);
+}
+
+.prose .hljs-number,
+.prose .hljs-literal,
+.prose .hljs-variable,
+.prose .hljs-template-variable,
+.prose .hljs-selector-attr,
+.prose .hljs-selector-pseudo {
+  color: var(--astro-code-token-constant);
+}
+
+.prose .hljs-title,
+.prose .hljs-section,
+.prose .hljs-name,
+.prose .hljs-selector-id,
+.prose .hljs-selector-class,
+.prose .hljs-built_in,
+.prose .hljs-class .hljs-title {
+  color: var(--astro-code-token-function);
+}
+
+.prose .hljs-attr,
+.prose .hljs-property,
+.prose .hljs-params,
+.prose .hljs-argument,
+.prose .hljs-symbol,
+.prose .hljs-bullet {
+  color: var(--astro-code-token-parameter);
+}
+
+.prose .hljs-punctuation,
+.prose .hljs-operator,
+.prose .hljs-subst,
+.prose .hljs-meta {
+  color: var(--astro-code-token-punctuation);
+}
+
+.prose .hljs-link,
+.prose .hljs-tag {
+  color: var(--astro-code-token-link);
+}
+
+.prose .hljs-emphasis {
+  font-style: italic;
+}
+
+.prose .hljs-strong {
+  font-weight: var(--font-weight-bold);
+}
+
+/* Typecho 常见的 Prettify / CodePrettify 类名兼容 */
+.prose .com,
+.prose .cm {
+  color: var(--astro-code-token-comment);
+  font-style: italic;
+}
+
+.prose .kw,
+.prose .kd,
+.prose .kn,
+.prose .kr,
+.prose .kt {
+  color: var(--astro-code-token-keyword);
+}
+
+.prose .st,
+.prose .sc,
+.prose .sd,
+.prose .s2,
+.prose .se,
+.prose .sh,
+.prose .si,
+.prose .sx,
+.prose .sr,
+.prose .s1,
+.prose .ss {
+  color: var(--astro-code-token-string);
+}
+
+.prose .na,
+.prose .nb,
+.prose .bp {
+  color: var(--astro-code-token-function);
+}
+
+.prose .nf,
+.prose .fm {
+  color: var(--astro-code-token-function);
+}
+
+.prose .nc,
+.prose .nn {
+  color: var(--astro-code-token-constant);
+}
+
+.prose .no,
+.prose .nd,
+.prose .ni,
+.prose .ne {
+  color: var(--astro-code-token-constant);
+}
+
+.prose .nv,
+.prose .vc,
+.prose .vg,
+.prose .vi,
+.prose .vm {
+  color: var(--astro-code-token-parameter);
+}
+
+.prose .p,
+.prose .pi {
+  color: var(--astro-code-token-punctuation);
+}
+
+.prose .m,
+.prose .mf,
+.prose .mh,
+.prose .mi,
+.prose .mo,
+.prose .il {
+  color: var(--astro-code-token-constant);
+}
+
+.prose .o,
+.prose .ow {
+  color: var(--astro-code-token-keyword);
+}
+
+.prose .err {
+  color: var(--astro-code-token-keyword);
+  text-decoration: underline wavy;
+}
+
+.prose .gd {
+  color: var(--text-secondary);
+}
+
+.prose .gi {
+  color: var(--text-primary);
+}
+
+.prose .ge {
+  font-style: italic;
+}
+
+.prose .gs {
+  font-weight: var(--font-weight-bold);
+}
+
+.prose .gh,
+.prose .gu {
+  color: var(--astro-code-token-function);
+  font-weight: var(--font-weight-bold);
+}
+/* ---- KaTeX 与页面配色保持一致 ---- */
+.katex,
+.katex * {
+  color: inherit;
+}
+
+.katex .base,
+.katex .strut,
+.katex .mathit,
+.katex .mathrm,
+.katex .mathbf,
+.katex .mathsf,
+.katex .mathtt {
+  line-height: initial;
+  vertical-align: baseline;
+}
+
+.katex-display {
+  margin: 1.75em 0;
+}

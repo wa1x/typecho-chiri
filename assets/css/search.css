@@ -1,0 +1,142 @@
+/* ==========================================================
+   搜索：点击图标 → 页面中央弹出搜索框，网页背景虚化
+
+   背景虚化用 overlay 自身的 backdrop-filter 实现 —— 不给
+   .layout-wrapper 加 filter/backdrop-filter（那会让它成为后代
+   position:fixed 元素的包含块，拽走侧边目录与返回按钮，
+   见 global.css 顶部注释）。
+
+   overlay 关闭时 visibility:hidden，浏览器不绘制它，
+   全屏背景模糊的开销只在弹层打开时存在。
+   ========================================================== */
+
+/* ---- 触发按钮：与主题切换按钮同一套克制配色 ---- */
+.search-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.4;
+  transition: opacity 0.2s ease-out;
+}
+
+.search-trigger:hover {
+  opacity: 1;
+}
+
+.search-trigger svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  flex-shrink: 0;
+}
+
+/* 触屏设备没有 hover：保持常驻透明度，不闪变（同 .theme-toggle） */
+@media (hover: none) and (pointer: coarse) {
+  .search-trigger:hover {
+    opacity: 0.4;
+  }
+}
+
+/* ---- 列表页：页头导航右侧与主题切换按钮并排 ---- */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* ---- 弹层 ----
+ * 用 display 切换而不是 visibility：visibility:hidden 的元素在过渡
+ * 期间仍不可聚焦，弹层一打开输入框就拿不到焦点。
+ */
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.28);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+html.dark .search-overlay {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.search-overlay.is-open,
+.search-overlay.is-closing {
+  display: flex;
+}
+
+.search-overlay.is-open {
+  animation: chiri-search-fade-in 0.2s ease-out;
+}
+
+.search-overlay.is-closing {
+  animation: chiri-search-fade-out 0.2s ease-out forwards;
+}
+
+@keyframes chiri-search-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes chiri-search-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.search-panel {
+  position: relative;
+  width: 100%;
+  max-width: 26rem;
+  padding: 1.25rem;
+  background: var(--bg);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+html.dark .search-panel {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.search-overlay.is-open .search-panel {
+  animation: chiri-search-panel-in 0.2s ease-out;
+}
+
+@keyframes chiri-search-panel-in {
+  from { opacity: 0; transform: translateY(0.5rem) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 弹层里的搜索表单沿用归档页 .search-form 的控件样式，只调整间距与尺寸 */
+.search-panel .search-form {
+  margin-bottom: 0;
+  gap: 0.5rem;
+}
+
+.search-panel .search-form input[type='search'] {
+  padding: 0.6em 0.75em;
+}
+
+.search-panel__hint {
+  margin: 0.75rem 0 0;
+  font-size: var(--font-size-s);
+  color: var(--text-secondary);
+  opacity: 0.75;
+  text-align: center;
+}
+
+/* 弹层打开时锁住背景滚动（html 已用 scrollbar-gutter:stable 预留滚动条位置，不会跳动） */
+html.search-open {
+  overflow: hidden;
+}
