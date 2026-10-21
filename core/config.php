@@ -17,7 +17,7 @@ function chiri_default_config()
     return array(
         'site' => array(
             'title'       => 'CHIRI',
-            'author'      => '3ASH',
+            'author'      => '歪叉',
             // 站点描述不在此配置：meta description 由 Typecho「设置 → 站点描述」提供
             'language'    => 'zh-CN',
             'favicon'     => '',

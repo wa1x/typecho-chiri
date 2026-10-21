@@ -1,6 +1,7 @@
 MIT License
 
-Copyright (c) 2026 歪叉
+Copyright (c) 2026 歪叉 (Typecho 主题移植, https://waix.cc)
+Copyright (c) 2025 – Present 3ASH (原作 astro-chiri, https://github.com/the3ash/astro-chiri)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +20,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+本主题随附的字体文件（assets/fonts/）不适用上述 MIT 协议，
+而采用 SIL Open Font License 1.1，许可文本见 assets/fonts/OFL.txt。
